@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personal Yoga Journey Companion</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .earth-tone { background-color: #FDFBF7; }
+        .sage-accent { color: #606C38; }
+        .sage-bg { background-color: #283618; }
+        .soft-border { border-color: #E7E3D4; }
+    </style>
+</head>
+<body class="earth-tone text-stone-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <header class="p-6 border-b soft-border bg-white shadow-xs">
+        <h1 class="text-2xl font-serif text-center sage-accent font-semibold">🌿 Yoga Wellness Companion</h1>
+        <p id="quote" class="text-xs italic text-stone-500 text-center mt-2">"Thank you for showing up today." — Sukhinah Bhavantu</p>
+    </header>
+
+    <main class="flex-grow p-4 max-w-md mx-auto w-full overflow-y-auto pb-24">
+        
+        <section id="home-screen" class="app-screen space-y-6">
+            <div class="bg-white p-5 rounded-2xl shadow-xs border soft-border">
+                <h2 class="text-lg font-medium text-stone-700 mb-1">Daily Check-In</h2>
+                <p class="text-xs text-stone-400 mb-4">Listen to your body and mind before you step onto the mat.</p>
+                
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold tracking-wider text-stone-400 uppercase mb-2">How is your mood today?</label>
+                    <select id="mood-input" class="w-full p-3 rounded-xl bg-stone-50 border soft-border text-sm focus:outline-none focus:border-emerald-700">
+                        <option value="Calm">Calm 😌</option>
+                        <option value="Happy">Happy 😊</option>
+                        <option value="Emotional">Emotional 🌊</option>
+                        <option value="Overwhelmed">Overwhelmed 🌪️</option>
+                        <option value="Anxious">Anxious 🍃</option>
+                        <option value="Grounded">Grounded 🪵</option>
+                        <option value="Tired">Tired 🥱</option>
+                        <option value="Unmotivated">Unmotivated 🪵</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold tracking-wider text-stone-400 uppercase mb-2">Body Awareness & Concerns</label>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <label class="flex items-center space-x-2 font-medium text-emerald-700 col-span-2 bg-emerald-50/70 p-2 rounded-lg cursor-pointer">
+                            <input type="checkbox" value="No Injury" id="no-injury-check" onchange="toggleInjuryOptions(this)" class="body-concern accent-emerald-700"> 
+                            <span>✨ No injury / Feeling great today</span>
+                        </label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Neck" class="body-concern injury-specific"> <span class="text-stone-600">Neck</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Shoulder" class="body-concern injury-specific"> <span class="text-stone-600">Shoulder</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Wrist" class="body-concern injury-specific"> <span class="text-stone-600">Wrist</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Lower Back" class="body-concern injury-specific"> <span class="text-stone-600">Lower Back</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Hips" class="body-concern injury-specific"> <span class="text-stone-600">Hips</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Hamstring" class="body-concern injury-specific"> <span class="text-stone-600">Hamstring</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Knee" class="body-concern injury-specific"> <span class="text-stone-600">Knee</span></label>
+                        <label class="flex items-center space-x-2 p-1"><input type="checkbox" value="Fatigue" class="body-concern injury-specific"> <span class="text-stone-600">Full Fatigue</span></label>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold tracking-wider text-stone-400 uppercase mb-2">Today's Yoga Style</label>
+                    <select id="style-input" class="w-full p-3 rounded-xl bg-stone-50 border soft-border text-sm focus:outline-none focus:border-emerald-700">
+                        <option value="Hatha">Hatha</option>
+                        <option value="Vinyasa">Vinyasa</option>
+                        <option value="Yin Yoga">Yin Yoga</option>
+                        <option value="Ashtanga">Ashtanga</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold tracking-wider text-stone-400 uppercase mb-2">Target Poses Today (Separate with commas)</label>
+                    <input type="text" id="poses-input" placeholder="e.g., Crow Pose, Pincha, Headstand" class="w-full p-3 rounded-xl bg-stone-50 border soft-border text-sm focus:outline-none focus:border-emerald-700">
+                </div>
+
+                <button onclick="submitCheckIn()" class="w-full mt-4 py-3 sage-bg text-white font-medium rounded-xl transition hover:opacity-95 cursor-pointer shadow-xs">
+                    Save Log & Generate Insight
+                </button>
+            </div>
+
+            <div id="recommendation-box" class="hidden bg-emerald-50 border border-emerald-100 p-5 rounded-2xl shadow-xs transition-all duration-300">
+                <h3 class="text-sm font-bold text-emerald-900 flex items-center gap-1">✨ Mindful Recommendation</h3>
+                <p id="recommendation-text" class="text-sm text-emerald-800 mt-2 leading-relaxed"></p>
+            </div>
+        </section>
+
+        <section id="practice-screen" class="app-screen hidden space-y-4">
+            <div class="bg-white p-5 rounded-2xl shadow-xs border soft-border">
+                <h2 class="text-lg font-medium text-stone-700 mb-1">Your Practice History</h2>
+                <p class="text-xs text-stone-400 mb-4">A gentle review of your historical mat sessions.</p>
+                <div id="history-container" class="space-y-3 text-sm max-h-96 overflow-y-auto">
+                    <p class="text-stone-400 italic text-center">No practices logged yet. Complete your first check-in above!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="plans-screen" class="app-screen hidden space-y-4">
+            <div class="bg-white p-5 rounded-2xl shadow-xs border soft-border text-center py-10">
+                <span class="text-3xl">📅</span>
+                <h2 class="text-lg font-medium text-stone-700 mt-2">Intention Scheduling & Challenges</h2>
+                <p class="text-xs text-stone-400 mt-1 max-w-xs mx-auto">Future planning configurations and gentle 30-day challenges are scaling into production soon.</p>
+            </div>
+        </section>
+
+        <section id="reflection-screen" class="app-screen hidden space-y-4">
+            <div class="bg-white p-5 rounded-2xl shadow-xs border soft-border text-center py-10">
+                <span class="text-3xl">💭</span>
+                <h2 class="text-lg font-medium text-stone-700 mt-2">Mindful Trends & Emotional Analytics</h2>
+                <p class="text-xs text-stone-400 mt-1 max-w-xs mx-auto">Long-term mood tracking charts and automated somatic insights will process in this view.</p>
+            </div>
+        </section>
+
+        <section id="profile-screen" class="app-screen hidden space-y-4">
+            <div class="bg-white p-5 rounded-2xl shadow-xs border soft-border text-center py-10">
+                <span class="text-3xl">👤</span>
+                <h2 class="text-lg font-medium text-stone-700 mt-2">Your Unique Yoga Identity</h2>
+                <p class="text-xs text-stone-400 mt-1 max-w-xs mx-auto">Personal statistics, preferred sub-styles, and gentle consistency timelines rest here.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="bg-white border-t soft-border px-2 py-3 shadow-lg fixed bottom-0 left-0 right-0 z-50">
+        <div class="flex justify-around max-w-md mx-auto">
+            <button onclick="switchTab('home')" class="nav-btn font-medium text-[10px] flex flex-col items-center gap-1 sage-accent cursor-pointer"><span>🏠</span><span>Home</span></button>
+            <button onclick="switchTab('practice')" class="nav-btn text-stone-400 font-medium text-[10px] flex flex-col items-center gap-1 cursor-pointer"><span>🧘</span><span>Practice</span></button>
+            <button onclick="switchTab('plans')" class="nav-btn text-stone-400 font-medium text-[10px] flex flex-col items-center gap-1 cursor-pointer"><span>📅</span><span>Plans</span></button>
+            <button onclick="switchTab('reflection')" class="nav-btn text-stone-400 font-medium text-[10px] flex flex-col items-center gap-1 cursor-pointer"><span>💭</span><span>Reflection</span></button>
+            <button onclick="switchTab('profile')" class="nav-btn text-stone-400 font-medium text-[10px] flex flex-col items-center gap-1 cursor-pointer"><span>👤</span><span>Profile</span></button>
+        </div>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
